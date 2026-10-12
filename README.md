@@ -3,9 +3,9 @@
     <h2>Kernel Library for Large Headdim Attention</h2>
     <img src=https://img.shields.io/badge/language-CUDA/Python-brightgreen.svg >
     <a href="https://pepy.tech/projects/ffpa-attn"><img src=https://static.pepy.tech/personalized-badge/ffpa-attn?period=total&units=ABBREVIATION&left_color=GRAY&right_color=BLUE&left_text=downloads/pypi ></a>
-    <a href="https://pypi.org/project/ffpa-attn/"><img src=https://img.shields.io/github/release/xlite-dev/ffpa-attn.svg?color=GREEN ></a>
-    <img src=https://img.shields.io/github/stars/xlite-dev/ffpa-attn.svg?style=dark >
-    <img src="https://img.shields.io/github/license/xlite-dev/ffpa-attn.svg?color=blue"><br>
+    <a href="https://pypi.org/project/ffpa-attn/"><img src=https://img.shields.io/github/release/vipshop/ffpa-attn.svg?color=GREEN ></a>
+    <img src=https://img.shields.io/github/stars/vipshop/ffpa-attn.svg?style=dark >
+    <img src="https://img.shields.io/github/license/vipshop/ffpa-attn.svg?color=blue"><br>
     <img src="docs/assets/ffpa-api.png" width="700px">
 </div>
 
@@ -28,7 +28,7 @@
 - [2026-08] 🚪 FFPA now experimental supports [**FP4 Attention**](./csrc/cuffpa/cute/fp4/) for headdims **[64,1024]** ([sm_120](./csrc/cuffpa/cute/fp4/sm_120/), forward only), achieving **850-980**🎉 TOPS (D=128-256) on NVIDIA RTX 5090, **3.8x~4.4x**🎉 speedup over PyTorch SDPA (FlashAttention-2 backend), the performance of large headdims is stay tuned for updates. 🎉🎉
 - [2026-08] 🦅 FFPA now supports D=512 for NVIDIA B200 via [**CuTe-DSL**](#benchmark) **tcgen05** 2-CTA, [**1517**](#benchmark) TFLOPS forward and [**763**](#benchmark) TFLOPS backward, achieving **6x~15x**🎉 speedup over standard PyTorch SDPA. 🎉🎉
 - [2026-07] 🎯 FFPA now supports [**FP8 Attention**](./csrc/cuffpa/cute/fp8/) for headdims **[64,1024]** ([sm_120](./csrc/cuffpa/cute/fp8/sm_120/), forward only) and achieving **3x~6x**🎉 speedup over PyTorch SDPA for large headdim (**D>256**). 🎉🎉
-- [2026-06] FFPA now supports **AMD ROCm/HIP GPUs** via the TritonBackend, check [#268](https://github.com/xlite-dev/ffpa-attn/pull/268) for more details. 🎉
+- [2026-06] FFPA now supports **AMD ROCm/HIP GPUs** via the TritonBackend, check [#268](https://github.com/vipshop/ffpa-attn/pull/268) for more details. 🎉
 - [2026-06] 🦅 [**NVIDIA-Nemo/AutoModel x FFPA**](https://github.com/NVIDIA-NeMo/Automodel/pull/2436) achieving [**1.4x~1.5x**🎉](https://github.com/NVIDIA-NeMo/Automodel/pull/2436) End2End training throughput speedup for Gemma4-31B (8xH200, FSDP2 + AC) with **FFPA** accelerating the **10/60 (D=512)** full-attention layers. 🎉🎉
 - [2026-06] 🐍 FFPA now supports [**TritonBackend**](./src/ffpa_attn/triton/) and [**CuTeDSLBackend**](./src/ffpa_attn/cute/) for both forward and backward pass, achieving **1.5x~5x**🎉 speedup over standard PyTorch SDPA across many devices. 🎉🎉
 - [2026-05] 🚪 FFPA now supports GQA, MQA, cross-attn, causal, attn-mask and dropout with [**CUDABackend**](./csrc/cuffpa/native/) for large headdims (**D>256**, forward only), achieving **1.3x~2x**🎉 speedup over PyTorch SDPA. 🎉🎉
@@ -37,13 +37,13 @@
 
 <div id="install"></div>
 
-First, install the prebuilt package from [PyPI](https://pypi.org/project/ffpa-attn/) or build [ffpa-attn](https://github.com/xlite-dev/ffpa-attn) from source:
+First, install the prebuilt package from [PyPI](https://pypi.org/project/ffpa-attn/) or build [ffpa-attn](https://github.com/vipshop/ffpa-attn) from source:
 
 ```bash
 # First, install the prebuilt package from PyPI
 pip3 install -U ffpa-attn # CUDA 13.0+, PyTorch 2.11+
 # Or, build ffpa-attn from source, just follow the cmds
-git clone https://github.com/xlite-dev/ffpa-attn.git
+git clone https://github.com/vipshop/ffpa-attn.git
 # Then, build the wheel package (Triton + CuTe-DSL backends)
 cd ffpa-attn && pip3 install -e . --no-build-isolation
 # Optional: install ffpa-attn w/ CUDA backend (forward only)
@@ -192,7 +192,7 @@ How to use different backends for your own scenario? Users can simply pass the B
 
 ## Persistent Autotune
 
-Generate device-specific tuned configs for production deployment (currently, [**Triton**](https://ffpa-attn.readthedocs.io/en/latest/user_guide/autotune/) only), avoiding per-process autotune cost. The generated JSON is saved under [configs](https://github.com/xlite-dev/ffpa-attn/tree/main/src/ffpa_attn/triton/configs) dir and automatically loaded when runtime autotune is disabled (the default). See the docs of [Triton Autotune](https://ffpa-attn.readthedocs.io/en/latest/user_guide/autotune/) for details.
+Generate device-specific tuned configs for production deployment (currently, [**Triton**](https://ffpa-attn.readthedocs.io/en/latest/user_guide/autotune/) only), avoiding per-process autotune cost. The generated JSON is saved under [configs](https://github.com/vipshop/ffpa-attn/tree/main/src/ffpa_attn/triton/configs) dir and automatically loaded when runtime autotune is disabled (the default). See the docs of [Triton Autotune](https://ffpa-attn.readthedocs.io/en/latest/user_guide/autotune/) for details.
 
 ```bash
 python -m ffpa_attn.autotune --mode max --full-tasks --overwrite # 1 GPU
@@ -280,7 +280,7 @@ Apache License 2.0
 - [cache-dit](https://github.com/vipshop/cache-dit)
 - [flash-attention](https://github.com/Dao-AILab/flash-attention)
 - [SageAttention](https://github.com/thu-ml/sageattention)
-- [LeetCUDA](https://github.com/xlite-dev/LeetCUDA)
+- [LeetCUDA](https://github.com/vipshop/LeetCUDA)
 - [flashinfer](https://github.com/flashinfer-ai/flashinfer)
 - [quack](https://github.com/Dao-AILab/quack)
 - [cutlass](https://github.com/NVIDIA/cutlass)
