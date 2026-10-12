@@ -263,7 +263,7 @@ Apache License 2.0
 
 ```BibTeX
 @misc{deftruth2026ffpa,
-  author       = {DefTruth and Butterfingrz},
+  author       = {DefTruth, Butterfingrz and vipshop.com},
   title        = {FFPA: Kernel Library for Large Headdim Attention},
   year         = {2026},
   publisher    = {Zenodo},
