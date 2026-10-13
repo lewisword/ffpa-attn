@@ -99,7 +99,9 @@ B, H, N, D = 1, 32, 8192, 128 # batch_size, num_heads, seq_len, head_dim
 q = torch.randn(B, H, N, D, dtype=torch.bfloat16, device="cuda")
 k = torch.randn(B, H, N, D, dtype=torch.bfloat16, device="cuda")
 v = torch.randn(B, H, N, D, dtype=torch.bfloat16, device="cuda")
+```
 
+```python
 # Currenly, fp8/fp4 attention are only supported on sm_120, forward only.
 fp8_backend = CUDABackend(backward=False, forward=True, enable_fp8=True)
 fp4_backend = CUDABackend(backward=False, forward=True, enable_fp4=True)
